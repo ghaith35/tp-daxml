@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <header>
+        <title>DAXML Travel Guide</title>
+        <background_image>images/background.jpg</background_image>
+    </header>
+    <nav>
+        <student>
+            <name>Toto</name>
+            <surname>Tutu</surname>
+            <speciality>TI</speciality>
+            <section>1</section>
+            <group>2</group>
+            <email>t.toto@mail.dz</email>
+        </student>
+    </nav>
+</config>
