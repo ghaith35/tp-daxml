@@ -1,0 +1,42 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:element name="recherche">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="continents">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="continent" maxOccurs="unbounded">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="no" type="xs:string"/>
+                                        <xs:element name="nom" type="xs:string"/>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="pays">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="ville" maxOccurs="unbounded">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="nom" type="xs:string"/>
+                                        <xs:element name="sites">
+                                            <xs:complexType>
+                                                <xs:sequence>
+                                                    <xs:element name="site" maxOccurs="unbounded"/>
+                                                </xs:sequence>
+                                            </xs:complexType>
+                                        </xs:element>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>
