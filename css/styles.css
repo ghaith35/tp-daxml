@@ -196,3 +196,63 @@ footer {
     bottom: 0;
     width: 100%;
 }
+/* Form Container */
+.add-city-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    background-color: #ffffff; /* White background */
+    padding: 20px; /* Add padding inside the form */
+    margin: 20px auto; /* Center the form */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    max-width: 500px; /* Set a max width */
+    width: 90%; /* Responsive width */
+}
+
+/* Form Labels */
+.add-city-form label {
+    font-weight: bold;
+    color: #333; /* Dark text for contrast */
+    margin-bottom: 5px;
+}
+
+/* Form Inputs and Textarea */
+.add-city-form input,
+.add-city-form textarea {
+    padding: 10px;
+    border: 1px solid #ccc; /* Light border */
+    border-radius: 5px;
+    font-size: 1rem;
+    width: 100%; /* Full width of the form container */
+}
+
+/* Add focus effect on inputs */
+.add-city-form input:focus,
+.add-city-form textarea:focus {
+    border-color: #007bff; /* Blue border on focus */
+    outline: none; /* Remove default outline */
+}
+
+/* Textarea specific styles */
+.add-city-form textarea {
+    resize: vertical; /* Allow vertical resizing only */
+    height: 100px; /* Default height for textareas */
+}
+
+/* Submit Button */
+.add-city-form .btn {
+    background-color: #007bff; /* Blue background */
+    color: white;
+    padding: 10px 20px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-transform: uppercase; /* Capitalized text */
+    font-weight: bold;
+}
+
+.add-city-form .btn:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}

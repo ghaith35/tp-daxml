@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE config SYSTEM "xml/Config.dtd">
+<!DOCTYPE config SYSTEM "Config.dtd">
 
 <config>
     <header>
-        <img src="images/banner.jpg" alt="Travel Site Banner"/>
+        <img src="images/banner.jeg" alt="Travel Site Banner"/>
         <h1>Growth Agence</h1>
     </header>
     <nav>

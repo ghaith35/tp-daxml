@@ -1,6 +1,7 @@
 <?php
 // Create a new DOMDocument instance
 $dom = new DOMDocument();
+libxml_use_internal_errors(true);
 
 // Suppress errors and load the XML file
 libxml_use_internal_errors(true);  // Enable internal error handling
