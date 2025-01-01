@@ -1,100 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-                xmlns:fo="http://www.w3.org/1999/XSL/Format">
-    
-    <!-- Define the template for the city page -->
-    <xsl:template match="/ville">
-        <fo:layout-master-set>
-            <fo:simple-page-master master-name="A4" page-height="297mm" page-width="210mm">
-                <fo:region-body margin="20mm"/>
-            </fo:simple-page-master>
-        </fo:layout-master-set>
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+    <xsl:output method="html" encoding="UTF-8" indent="yes"/>
 
-        <fo:page-sequence master-reference="A4">
-            <fo:flow flow-name="xsl-region-body">
-                
-                <!-- City Title -->
-                <fo:block font-size="18pt" font-weight="bold" text-align="center">
-                    <xsl:value-of select="@nom"/>
-                </fo:block>
-                
-                <!-- City Description -->
-                <fo:block margin-top="10mm">
-                    <xsl:value-of select="descriptif"/>
-                </fo:block>
-
-                <!-- Sites -->
-                <fo:block margin-top="10mm">
-                    <fo:block font-size="14pt" font-weight="bold">Sites</fo:block>
-                    <fo:list-block>
-                        <xsl:for-each select="sites/site">
-                            <fo:list-item>
-                                <fo:list-item-label>
-                                    <fo:block><xsl:value-of select="@nom"/></fo:block>
-                                </fo:list-item-label>
-                                <fo:list-item-body>
-                                    <fo:block><xsl:value-of select="photo"/></fo:block>
-                                </fo:list-item-body>
-                            </fo:list-item>
-                        </xsl:for-each>
-                    </fo:list-block>
-                </fo:block>
-
-                <!-- Hotels -->
-                <fo:block margin-top="10mm">
-                    <fo:block font-size="14pt" font-weight="bold">Hotels</fo:block>
-                    <fo:list-block>
-                        <xsl:for-each select="hotels/hotel">
-                            <fo:list-item>
-                                <fo:list-item-label>
-                                    <fo:block><xsl:value-of select="."/></fo:block>
-                                </fo:list-item-label>
-                            </fo:list-item>
-                        </xsl:for-each>
-                    </fo:list-block>
-                </fo:block>
-
-                <!-- Restaurants -->
-                <fo:block margin-top="10mm">
-                    <fo:block font-size="14pt" font-weight="bold">Restaurants</fo:block>
-                    <fo:list-block>
-                        <xsl:for-each select="restaurants/restaurant">
-                            <fo:list-item>
-                                <fo:list-item-label>
-                                    <fo:block><xsl:value-of select="."/></fo:block>
-                                </fo:list-item-label>
-                            </fo:list-item>
-                        </xsl:for-each>
-                    </fo:list-block>
-                </fo:block>
-
-                <!-- Transport -->
-                <fo:block margin-top="10mm">
-                    <fo:block font-size="14pt" font-weight="bold">Transport</fo:block>
-                    <fo:block font-size="12pt" font-weight="bold">Gares</fo:block>
-                    <fo:list-block>
-                        <xsl:for-each select="gares/gare">
-                            <fo:list-item>
-                                <fo:list-item-label>
-                                    <fo:block><xsl:value-of select="."/></fo:block>
-                                </fo:list-item-label>
-                            </fo:list-item>
-                        </xsl:for-each>
-                    </fo:list-block>
-                    <fo:block font-size="12pt" font-weight="bold">Aéroports</fo:block>
-                    <fo:list-block>
-                        <xsl:for-each select="aeroports/aeroport">
-                            <fo:list-item>
-                                <fo:list-item-label>
-                                    <fo:block><xsl:value-of select="."/></fo:block>
-                                </fo:list-item-label>
-                            </fo:list-item>
-                        </xsl:for-each>
-                    </fo:list-block>
-                </fo:block>
-
-            </fo:flow>
-        </fo:page-sequence>
+    <xsl:template match="/">
+        <html>
+            <head>
+                <title>City Report</title>
+                <style>
+                    body { font-family: Arial, sans-serif; }
+                    h1, h2, h3 { color: #333; }
+                    table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+                    th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+                    th { background-color: #f2f2f2; }
+                </style>
+            </head>
+            <body>
+                <h1>City Report: <xsl:value-of select="/ville/@nom"/></h1>
+                <p><xsl:value-of select="/ville/descriptif"/></p>
+                <h2>Sites</h2>
+                <table>
+                    <tr>
+                        <th>Site Name</th>
+                        <th>Photo</th>
+                    </tr>
+                    <xsl:for-each select="/ville/sites/site">
+                        <tr>
+                            <td><xsl:value-of select="@nom"/></td>
+                            <td><xsl:value-of select="photo"/></td>
+                        </tr>
+                    </xsl:for-each>
+                </table>
+                <h2>Hotels</h2>
+                <ul>
+                    <xsl:for-each select="/ville/hotels/hotel">
+                        <li><xsl:value-of select="."/></li>
+                    </xsl:for-each>
+                </ul>
+                <h2>Restaurants</h2>
+                <ul>
+                    <xsl:for-each select="/ville/restaurants/restaurant">
+                        <li><xsl:value-of select="."/></li>
+                    </xsl:for-each>
+                </ul>
+                <h2>Gares</h2>
+                <ul>
+                    <xsl:for-each select="/ville/gares/gare">
+                        <li><xsl:value-of select="."/></li>
+                    </xsl:for-each>
+                </ul>
+                <h2>Aeroports</h2>
+                <ul>
+                    <xsl:for-each select="/ville/aeroports/aeroport">
+                        <li><xsl:value-of select="."/></li>
+                    </xsl:for-each>
+                </ul>
+            </body>
+        </html>
     </xsl:template>
-
 </xsl:stylesheet>
