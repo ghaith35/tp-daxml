@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>alger</title>
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+    <header>
+        <h1>alger</h1>
+        <p>Située au bord de la mer Méditerranée, Alger est une ville historique...</p>
+    </header>
+    <section>
+        <h2>Sites</h2>
+        <ul><li><strong>s1</strong>: <img src='../images/Capture d’écran (1).png' alt='s1'></li>        </ul>
+    </section>
+    <section>
+        <h2>Hotels</h2>
+        <ul><li>El Aurassi</li><li>El Djazair</li>        </ul>
+    </section>
+    <section>
+        <h2>Restaurants</h2>
+        <ul><li>El Nadjah</li><li>El Bena</li>        </ul>
+    </section>
+    <section>
+        <h2>Transport</h2>
+        <h3>Gares</h3>
+        <ul><li>Caroubier</li>        </ul>
+        <h3>Aéroports</h3>
+        <ul><li>Houari Boumediene</li>        </ul>
+    </section>
+    <!-- Button to Generate PDF -->
+    <button id="generate-pdf-btn">Generate PDF</button>
+
+    <script>
+        document.getElementById('generate-pdf-btn').addEventListener('click', function() {
+            const cityFile = "alger.xml"; // Get the city filename
+            window.location.href = '/tp_amir/generate_pdf.php?file=' + cityFile;
+        });
+    </script>
+
+</body>
+</html>

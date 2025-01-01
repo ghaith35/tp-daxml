@@ -94,7 +94,7 @@ $nav = $dom->getElementsByTagName('nav')->item(0);
                         </div>
                         <div class="input-group">
                             <label for="site">Site:</label>
-                            <input type="text" id="site" name="site" value="Cashbah" placeholder="Entrez un site">
+                            <input type="text" id="site" name="site"  placeholder="Entrez un site">
                         </div>
                     </div>
                     <button type="submit" class="btn"><i class="fa fa-check"></i> Valider</button>
@@ -119,33 +119,78 @@ $nav = $dom->getElementsByTagName('nav')->item(0);
 
     <!-- JavaScript -->
     <script>
-        document.getElementById('search-form').addEventListener('submit', function(event) {
-            event.preventDefault(); // Prevent default form submission
-            
-            // Collect input values
-            const continent = document.getElementById('continent').value;
-            const country = document.getElementById('country').value;
-            const city = document.getElementById('city').value;
-            const site = document.getElementById('site').value;
+    document.getElementById('search-form').addEventListener('submit', function(event) {
+    event.preventDefault(); // Empêcher le comportement par défaut du formulaire
 
-            // Display results dynamically
-            const results = document.getElementById('results');
-            results.innerHTML = ''; // Clear previous results
+    // Collecter les valeurs des champs de recherche
+    const continent = document.getElementById('continent').value.toLowerCase().trim();
+    const country = document.getElementById('country').value.toLowerCase().trim();
+    const city = document.getElementById('city').value.toLowerCase().trim();
+    const site = document.getElementById('site').value.toLowerCase().trim();
 
-            // Create a new list item with the search criteria
-            const resultItem = document.createElement('li');
-            resultItem.classList.add('city-item');
-            resultItem.innerHTML = `
-                <span><strong>Ville:</strong> ${city || 'N/A'} <strong>Pays:</strong> ${country || 'N/A'} <strong>Continent:</strong> ${continent || 'N/A'} <strong>Site:</strong> ${site || 'N/A'}</span>
-                <div class="city-actions">
-                    <a href="#" class="edit-btn"><i class="fa fa-edit"></i></a>
-                    <a href="#" class="delete-btn"><i class="fa fa-trash"></i></a>
-                </div>
-            `;
-            
-            // Append the new result item to the list
-            results.appendChild(resultItem);
+    const results = document.getElementById('results');
+    results.innerHTML = ''; // Réinitialiser les résultats
+
+    // Charger et parser le fichier XML
+    fetch('xml/Villes.xml')
+        .then(response => response.text())
+        .then(xmlText => {
+            const parser = new DOMParser();
+            const xmlDoc = parser.parseFromString(xmlText, 'application/xml');
+
+            const villes = xmlDoc.getElementsByTagName('ville');
+            let found = false;
+
+            // Parcourir les villes pour trouver des correspondances
+            Array.from(villes).forEach(ville => {
+                const villeName = ville.getAttribute('nom').toLowerCase();
+                const countryNode = ville.parentNode.parentNode;
+                const countryName = countryNode.getAttribute('nom').toLowerCase();
+                const continentNode = xmlDoc.querySelector(`continent[no="${countryNode.getAttribute('no')}"]`);
+                const continentName = continentNode ? continentNode.getAttribute('nom').toLowerCase() : '';
+                const siteElements = ville.getElementsByTagName('site');
+                const siteNames = Array.from(siteElements).map(site => site.getAttribute('nom').toLowerCase());
+
+                // Vérifier si la ville correspond aux critères de recherche
+                if (
+                    (!city || villeName.startsWith(city)) &&
+                    (!country || countryName.startsWith(country)) &&
+                    (!continent || continentName.startsWith(continent)) &&
+                    (!site || siteNames.some(siteName => siteName.startsWith(site)))
+                ) {
+                    found = true;
+
+                    // Créer un élément de résultat
+                    const resultItem = document.createElement('li');
+                    resultItem.classList.add('city-item');
+                    resultItem.innerHTML = `
+                    <a href="generate_city.php?file=${villeName}.xml" class="city-link">${villeName} (${countryName}, ${continentName})</a>
+                        <div class="city-actions">
+                            <a href="#" class="edit-btn"><i class="fa fa-edit"></i></a>
+                            <a href="#" class="delete-btn"><i class="fa fa-trash"></i></a>
+                        </div>  
+                    `;
+                    results.appendChild(resultItem);
+                }
+            });
+
+            // Si aucune ville n'a été trouvée
+            //  ${Array.from(ville.getElementsByTagName('site')).map(site => `
+            //         <li>
+            //             <strong>${site.getAttribute('nom')}</strong>
+            //         </li>
+            //     `).join('')}
+            // </ul>
+            if (!found) {
+                results.innerHTML = '<li>Aucun résultat trouvé.</li>';
+            }
+        })
+        .catch(error => {
+            console.error('Erreur lors du chargement du fichier XML:', error);
+            results.innerHTML = '<li>Impossible de charger les données.</li>';
         });
+});
+
     </script>
 
 </body>

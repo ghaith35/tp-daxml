@@ -1,19 +1,37 @@
 <?php
-// Get the city name from the URL parameter
-$city_name = $_GET['city_name'];
+// Ensure the 'file' parameter is provided
+if (!isset($_GET['file'])) {
+    echo "Error: No city file specified.";
+    exit;
+}
 
-// Load the XML file for the specific city
+// Sanitize the 'file' parameter to prevent directory traversal attacks
+$cityFile = basename($_GET['file']);
+$xmlFilePath = "xml/$cityFile";
+$xslFilePath = "xsl/Ville.xsl";
+
+// Check if the XML file exists
+if (!file_exists($xmlFilePath)) {
+    echo "Error: The specified city file does not exist.";
+    exit;
+}
+
+// Load the XML file
 $xml = new DOMDocument();
-$xml->load("xml/$city_name.xml");
+if (!$xml->load($xmlFilePath)) {
+    echo "Error: Unable to load the XML file.";
+    exit;
+}
 
-// Load the XSLT stylesheet
+// Load the XSL file
 $xsl = new DOMDocument();
-$xsl->load('xsl/Ville.xsl');
+if (!$xsl->load($xslFilePath)) {
+    echo "Error: Unable to load the XSL file.";
+    exit;
+}
 
-// Configure the XSLT processor
+// Perform the XSL transformation
 $proc = new XSLTProcessor();
-$proc->importStyleSheet($xsl);
-
-// Output the transformed HTML for the city
+$proc->importStylesheet($xsl);
 echo $proc->transformToXML($xml);
 ?>

@@ -19,7 +19,7 @@
                 </sites>
             </ville>
         </villes>
-    </pays>
+      </pays>
     <pays no="C2" nom="Grande Bretagne">
         <villes>
             <ville nom="Londres">

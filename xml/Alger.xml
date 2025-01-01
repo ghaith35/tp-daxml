@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ville nom="Alger">
-    <descriptif>Située au bord de la mer Méditerranée,...</descriptif>
-    <sites>
-        <site nom="Casbah" photo="casbah.jpg"/>
-        <site nom="Bastion 23" photo="bastion23.jpg"/>
-    </sites>
-    <hotels>
+<ville nom="alger">
+    <descriptif>Située au bord de la mer Méditerranée, Alger est une ville historique...</descriptif>
+  <sites>
+    <site nom="s1">
+      <photo>Capture d’écran (1).png</photo>
+    </site>
+  </sites>
+  <hotels>
         <hotel>El Aurassi</hotel>
         <hotel>El Djazair</hotel>
     </hotels>

@@ -5,7 +5,17 @@ body, h1, h2, h3, p, ul, li, a, button {
     box-sizing: border-box;
     font-family: Arial, sans-serif;
 }
-
+.ajouter{
+    font-size: 2.5rem; /* Large text size */
+    font-weight: bold; /* Make the text bold */
+    color: #007bff; /* Blue color for emphasis */
+    text-align: center; /* Center-align the text */
+    text-transform: uppercase; /* Make the text uppercase */
+    letter-spacing: 1.5px; /* Add some spacing between letters */
+    margin-bottom: 20px; /* Space below the heading */
+    border-bottom: 3px solid #ddd; /* Add a subtle underline */
+    padding-bottom: 10px; 
+}
 /* Layout Container */
 .container {
     display: flex;
