@@ -11,8 +11,8 @@ $xmlPath = __DIR__ . "/xml/" . basename($cityFile); // Relative path
 $xslPath = __DIR__ . "/xsl/city_to_pdf.xsl"; // Path to your XSL file
 
 // Debugging: Print the file paths
-echo "City file: " . $xmlPath . "<br>";
-echo "XSL file: " . $xslPath . "<br>";
+// echo "City file: " . $xmlPath . "<br>";
+// echo "XSL file: " . $xslPath . "<br>";
 
 // Check if the XML file exists
 if (!file_exists($xmlPath)) {
@@ -35,43 +35,30 @@ if (!$xsl->load($xslPath)) {
 $proc = new XSLTProcessor();
 $proc->importStyleSheet($xsl);
 
-// Instead of HTML output, we work with XSL-FO directly (for FOP to process)
-$foContent = $proc->transformToXML($xml);
+// Transform the XML into HTML
+$htmlContent = $proc->transformToXML($xml);
 
-// Ensure temp directory exists
-$tempDir = __DIR__ . "/tmp";
-if (!is_dir($tempDir)) {
-    mkdir($tempDir, 0777, true); // Create the directory if it doesn't exist
-}
+// Include the TCPDF library
+require_once('vendor/autoload.php');
 
-// Save the XSL-FO to a temporary file
-$tempFoPath = $tempDir . "/" . uniqid() . ".fo";
-if (!file_put_contents($tempFoPath, $foContent)) {
-    die("Error: Unable to save the XSL-FO content.");
-}
+// Create new PDF document
+$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 
-// Call Apache FOP (assuming it's installed and properly configured)
-$command = "fop -xml " . escapeshellarg($xmlPath) . " -xsl " . escapeshellarg($xslPath) . " -pdf " . escapeshellarg($tempFoPath . ".pdf");
+// Set document information
+$pdf->SetCreator(PDF_CREATOR);
+$pdf->SetAuthor('Your Name');
+$pdf->SetTitle('Generated PDF');
+$pdf->SetSubject('PDF Generation');
+$pdf->SetKeywords('TCPDF, PDF, example, test, guide');
 
-// Execute the command and check for errors
-// Execute the command and check for errors
-exec($command, $output, $status);
+// Add a page
+$pdf->AddPage();
 
-// Capture and display the output of the command
-if ($status !== 0) {
-    echo "Error: FOP execution failed. Output: " . implode("\n", $output);
-    die();
-}
+// Output the HTML content
+$pdf->writeHTML($htmlContent, true, false, true, false, '');
 
-
-// Send the PDF file to the browser
-header('Content-Type: application/pdf');
-header('Content-Disposition: inline; filename="city_pdf.pdf"');
-readfile($tempFoPath . ".pdf");
-
-// Clean up the temporary files
-unlink($tempFoPath);
-unlink($tempFoPath . ".pdf");
+// Close and output PDF document
+$pdf->Output('city_pdf.pdf', 'I');
 
 exit;
 ?>
